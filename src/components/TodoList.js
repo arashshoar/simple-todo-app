@@ -25,7 +25,7 @@ const editTask = ({ id, setTitle, setContent, setSelectedId, todoData, setIsEdit
   setIsEditMode(true)
 }
 
-const TodoList = ({ todoData, setTodoData, isEditMode, setIsEditMode, title, setTitle, content, setContent, selectedId, setSelectedId }) => {
+const TodoList = ({ todoData, setTodoData, setIsEditMode, setTitle, setContent, setSelectedId }) => {
 
   return (
     <div className="container">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const resetForm = (setTitle, setContent) => {
   setTitle('')
@@ -17,7 +17,19 @@ const addTask = ({ todoData, setTodoData, title, content, status, setTitle, setC
   resetForm(setTitle, setContent)
 }
 
-const TodoPanel = ({todoData, setTodoData, status, title, setTitle, content, setContent, isEditMode, setIsEditMode, selectedId, setSelectedId  }) => {
+const editTask = ({ todoData, setTodoData, title, content, setTitle, setContent, selectedId, setIsEditMode }) => {
+  const todoDataCp = [...todoData]
+  const selectedTask = todoDataCp.find(task => task.id === selectedId)
+
+  selectedTask.title = title
+  selectedTask.content = content
+  setTodoData(todoDataCp)
+  setIsEditMode(false)
+  setTitle('')
+  setContent('')
+}
+
+const TodoPanel = ({ todoData, setTodoData, status, title, setTitle, content, setContent, isEditMode, setIsEditMode, selectedId }) => {
 
   return (
     <div className="d-flex flex-column col-6 m-auto">
@@ -44,7 +56,7 @@ const TodoPanel = ({todoData, setTodoData, status, title, setTitle, content, set
       {
         isEditMode ?
           <button
-            onClick={() => addTask({todoData, setTodoData, title, content, status, setTitle, setContent})}
+            onClick={() => editTask({todoData, setTodoData, title, content, setTitle, setContent, selectedId, setIsEditMode })}
             className="btn btn-secondary mb-4"
           >
             Save
