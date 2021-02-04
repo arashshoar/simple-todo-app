@@ -1,8 +1,15 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faWindowClose } from '@fortawesome/free-regular-svg-icons'
+import { faEdit, faWindowClose, faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons'
 
-const TodoList = ({ todoData = [{title: 'Task Title', todo: 'Something to do Something to do Something to do ', status: 'Pending'}] }) => {
+const changeStatus = ({ id, todoData, setTodoData }) => {
+  const todoDataCp = [...todoData]
+  const selectedTask = todoDataCp.find(task => task.id === id)
+  selectedTask.status = !selectedTask.status
+  setTodoData(todoDataCp)
+}
+
+const TodoList = ({ todoData, setTodoData }) => {
 
   return (
     <div className="container">
@@ -11,18 +18,32 @@ const TodoList = ({ todoData = [{title: 'Task Title', todo: 'Something to do Som
       </div>
 
       {
-        todoData.map(task => (
-          <div className="row justify-content-center">
+        todoData.map(({ id, title, status, content }) => (
+          <div key={id} className="row justify-content-center">
             <div className='col-8'>
               <div className="card">
                 <div className="card-body">
                   <div className="card-title d-flex justify-content-between alert-dark">
-                    <div href="#"><FontAwesomeIcon icon={faEdit}/><span className="badge text-uppercase bg-outline">Edit</span></div>
-                    {task.title}
-                    <div href="#"><span className="badge text-uppercase bg-outline">Delete</span><FontAwesomeIcon icon={faWindowClose}/></div>
+                    <div>{title}</div>
+                    <div className="d-flex" style={{cursor: 'pointer'}}>
+                      <div>
+                        <FontAwesomeIcon icon={faEdit}/>
+                      </div>
+                      <div>
+                        <span>&nbsp;&nbsp;</span>
+                        <FontAwesomeIcon icon={faWindowClose}/>
+                      </div>
+                      <div>
+                        <span>&nbsp;&nbsp;</span>
+                        <FontAwesomeIcon
+                          onClick={() => changeStatus({id, todoData, setTodoData})}
+                          icon={status ? faCheckSquare :faSquare}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <div>{task.todo}</div>
+                    <div>{content}</div>
                   </div>
                 </div>
               </div>

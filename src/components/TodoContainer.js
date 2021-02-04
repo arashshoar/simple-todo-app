@@ -1,13 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TodoList from './TodoList'
 import TodoPanel from './TodoPanel'
 
-const TodoContainer = ({ todoData = [{title: 'Task Title', todo: 'Something to do', status: 'Pending'}] }) => {
+const TodoContainer = () => {
+
+  // const defaultTodo = {
+  //   title: 'Task Title',
+  //   content: "Do Something do something do something do something",
+  // }
+
+  const defaultTodo = []
+  const [todoData, setTodoData] = useState(defaultTodo)
 
   return (
     <div className="container">
-      <TodoPanel />
-      <TodoList />
+      <TodoPanel todoData={todoData} setTodoData={setTodoData} />
+      <TodoList todoData={todoData} setTodoData={setTodoData} />
     </div>
   )
 }
