@@ -1,35 +1,38 @@
 import React from 'react'
+import { ACTIONS } from './constants'
 
-const resetForm = (setTitle, setContent) => {
-  setTitle('')
-  setContent('')
+const resetForm = dispatch => {
+  dispatch({ type: ACTIONS.SET_TITLE, title: '' })
+  dispatch({ type: ACTIONS.SET_CONTENT, content: '' })
 }
 
-const addTask = ({ todoData, setTodoData, title, content, status, setTitle, setContent }) => {
+const addTask = ({ todoData, title, content, dispatch, state }) => {
   const newTaske = {
     title,
     content,
-    status,
+    status: false,
     id: Date.now()
   }
 
-  setTodoData([...todoData, newTaske])
-  resetForm(setTitle, setContent)
+  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: [...todoData, newTaske] })
+  resetForm(dispatch)
+
 }
 
-const editTask = ({ todoData, setTodoData, title, content, setTitle, setContent, selectedId, setIsEditMode }) => {
+const editTask = ({ todoData, title, content, selectedId, dispatch }) => {
   const todoDataCp = [...todoData]
   const selectedTask = todoDataCp.find(task => task.id === selectedId)
 
   selectedTask.title = title
   selectedTask.content = content
-  setTodoData(todoDataCp)
-  setIsEditMode(false)
-  setTitle('')
-  setContent('')
+  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: todoDataCp })
+  dispatch({ type: ACTIONS.SET_IS_EDIT_MODE, isEditMode: false })
+  dispatch({ type: ACTIONS.SET_TITLE, title: '' })
+  dispatch({ type: ACTIONS.SET_CONTENT, content: '' })
 }
 
-const TodoPanel = ({ todoData, setTodoData, status, title, setTitle, content, setContent, isEditMode, setIsEditMode, selectedId }) => {
+const TodoPanel = ({ state, dispatch }) => {
+  const { title, content, isEditMode, selectedId, todoData } = state
 
   return (
     <div className="d-flex flex-column col-6 m-auto">
@@ -38,7 +41,7 @@ const TodoPanel = ({ todoData, setTodoData, status, title, setTitle, content, se
         <input
           id="taskTitle"
           value={title}
-          onChange={event => setTitle(event.target.value)}
+          onChange={event => dispatch({ type: ACTIONS.SET_TITLE, title: event.target.value })}
           type="text"
           className="form-control"
           placeholder="Title"
@@ -49,20 +52,20 @@ const TodoPanel = ({ todoData, setTodoData, status, title, setTitle, content, se
         <textarea
           id="taskContent"
           value={content}
-          onChange={event => setContent(event.target.value)}
+          onChange={event => dispatch({ type: ACTIONS.SET_CONTENT, content: event.target.value })}
           className="form-control" placeholder="Task" rows="3"
         />
       </div>
       {
         isEditMode ?
           <button
-            onClick={() => editTask({todoData, setTodoData, title, content, setTitle, setContent, selectedId, setIsEditMode })}
+            onClick={() => editTask({ todoData, title, content, selectedId, dispatch })}
             className="btn btn-secondary mb-4"
           >
             Save
           </button> :
           <button
-            onClick={() => addTask({todoData, setTodoData, title, content, status, setTitle, setContent})}
+            onClick={() => addTask({ todoData, title, content, dispatch, state })}
             className="btn btn-secondary mb-4"
           >
             Add
