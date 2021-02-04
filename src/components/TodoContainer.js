@@ -1,15 +1,12 @@
 import React from 'react'
 import TodoList from './TodoList'
+import TodoPanel from './TodoPanel'
 
 const TodoContainer = ({ todoData = [{title: 'Task Title', todo: 'Something to do', status: 'Pending'}] }) => {
 
   return (
     <div className="container">
-      {
-        <div className="row">
-          <div></div>
-        </div>
-      }
+      <TodoPanel />
       <TodoList />
     </div>
   )
