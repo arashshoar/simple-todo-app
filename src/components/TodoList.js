@@ -9,6 +9,13 @@ const changeStatus = ({ id, todoData, setTodoData }) => {
   setTodoData(todoDataCp)
 }
 
+const deleteTask = ({ id, todoData, setTodoData }) => {
+  const todoDataCp = [...todoData]
+  const taskIndex = todoDataCp.findIndex(task => task.id === id)
+  todoDataCp.splice(taskIndex, 1)
+  setTodoData(todoDataCp)
+}
+
 const TodoList = ({ todoData, setTodoData }) => {
 
   return (
@@ -31,7 +38,10 @@ const TodoList = ({ todoData, setTodoData }) => {
                       </div>
                       <div>
                         <span>&nbsp;&nbsp;</span>
-                        <FontAwesomeIcon icon={faWindowClose}/>
+                        <FontAwesomeIcon
+                          onClick={() => deleteTask({id, todoData, setTodoData})}
+                          icon={faWindowClose}
+                        />
                       </div>
                       <div>
                         <span>&nbsp;&nbsp;</span>
