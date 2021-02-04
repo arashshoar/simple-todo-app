@@ -16,7 +16,16 @@ const deleteTask = ({ id, todoData, setTodoData }) => {
   setTodoData(todoDataCp)
 }
 
-const TodoList = ({ todoData, setTodoData }) => {
+const editTask = ({ id, setTitle, setContent, setSelectedId, todoData, setIsEditMode }) => {
+  const todoDataCp = [...todoData]
+  const selectedTask = todoDataCp.find(task => task.id === id)
+  setTitle(selectedTask.title)
+  setContent(selectedTask.content)
+  setSelectedId(id)
+  setIsEditMode(true)
+}
+
+const TodoList = ({ todoData, setTodoData, isEditMode, setIsEditMode, title, setTitle, content, setContent, selectedId, setSelectedId }) => {
 
   return (
     <div className="container">
@@ -25,35 +34,38 @@ const TodoList = ({ todoData, setTodoData }) => {
       </div>
 
       {
-        todoData.map(({ id, title, status, content }) => (
-          <div key={id} className="row justify-content-center">
+        todoData.map( task => (
+          <div key={task.id} className="row justify-content-center">
             <div className='col-8'>
               <div className="card">
                 <div className="card-body">
                   <div className="card-title d-flex justify-content-between alert-dark">
-                    <div>{title}</div>
-                    <div className="d-flex" style={{cursor: 'pointer'}}>
+                    <div>{task.title}</div>
+                    <div className="d-flex" style={{ cursor: 'pointer' }}>
                       <div>
-                        <FontAwesomeIcon icon={faEdit}/>
+                        <FontAwesomeIcon
+                          onClick={() => editTask({ id: task.id, setTitle, setContent, setSelectedId, todoData, setIsEditMode })}
+                          icon={faEdit}
+                        />
                       </div>
                       <div>
                         <span>&nbsp;&nbsp;</span>
                         <FontAwesomeIcon
-                          onClick={() => deleteTask({id, todoData, setTodoData})}
+                          onClick={() => deleteTask({ id: task.id, todoData, setTodoData })}
                           icon={faWindowClose}
                         />
                       </div>
                       <div>
                         <span>&nbsp;&nbsp;</span>
                         <FontAwesomeIcon
-                          onClick={() => changeStatus({id, todoData, setTodoData})}
-                          icon={status ? faCheckSquare :faSquare}
+                          onClick={() => changeStatus({ id: task.id, todoData, setTodoData })}
+                          icon={task.status ? faCheckSquare :faSquare}
                         />
                       </div>
                     </div>
                   </div>
                   <div className="d-flex justify-content-between">
-                    <div>{content}</div>
+                    <div>{task.content}</div>
                   </div>
                 </div>
               </div>

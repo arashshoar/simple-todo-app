@@ -11,11 +11,37 @@ const TodoContainer = () => {
 
   const defaultTodo = []
   const [todoData, setTodoData] = useState(defaultTodo)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [selectedId, setSelectedId] = useState('')
 
   return (
     <div className="container">
-      <TodoPanel todoData={todoData} setTodoData={setTodoData} />
-      <TodoList todoData={todoData} setTodoData={setTodoData} />
+      <TodoPanel
+        todoData={todoData}
+        setTodoData={setTodoData}
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        setContent={setContent}
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+      />
+      <TodoList
+        todoData={todoData}
+        setTodoData={setTodoData}
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        setContent={setContent}
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+      />
     </div>
   )
 }

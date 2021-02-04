@@ -17,10 +17,7 @@ const addTask = ({ todoData, setTodoData, title, content, status, setTitle, setC
   resetForm(setTitle, setContent)
 }
 
-const TodoPanel = ({todoData, setTodoData, status}) => {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-
+const TodoPanel = ({todoData, setTodoData, status, title, setTitle, content, setContent, isEditMode, setIsEditMode, selectedId, setSelectedId  }) => {
 
   return (
     <div className="d-flex flex-column col-6 m-auto">
@@ -44,12 +41,21 @@ const TodoPanel = ({todoData, setTodoData, status}) => {
           className="form-control" placeholder="Task" rows="3"
         />
       </div>
-      <button
-        onClick={() => addTask({todoData, setTodoData, title, content, status, setTitle, setContent})}
-        className="btn btn-secondary mb-4"
-      >
-        Add/Save
-      </button>
+      {
+        isEditMode ?
+          <button
+            onClick={() => addTask({todoData, setTodoData, title, content, status, setTitle, setContent})}
+            className="btn btn-secondary mb-4"
+          >
+            Save
+          </button> :
+          <button
+            onClick={() => addTask({todoData, setTodoData, title, content, status, setTitle, setContent})}
+            className="btn btn-secondary mb-4"
+          >
+            Add
+          </button>
+      }
     </div>
   )
 }
