@@ -7,7 +7,7 @@ const changeStatus = ({ id, todoData, dispatch }) => {
   const todoDataCp = [...todoData]
   const selectedTask = todoDataCp.find(task => task.id === id)
   selectedTask.status = !selectedTask.status
-  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: todoDataCp })
+  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: todoDataCp.sort((a, b) => a.status ? 1 : -1) })
 }
 
 const deleteTask = ({ id, todoData, dispatch }) => {

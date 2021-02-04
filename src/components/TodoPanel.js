@@ -14,7 +14,7 @@ const addTask = ({ todoData, title, content, dispatch, state }) => {
     id: Date.now()
   }
 
-  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: [...todoData, newTaske] })
+  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: [...todoData, newTaske].sort((a, b) => a.status ? 1 : -1) })
   resetForm(dispatch)
 
 }
@@ -25,7 +25,7 @@ const editTask = ({ todoData, title, content, selectedId, dispatch }) => {
 
   selectedTask.title = title
   selectedTask.content = content
-  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: todoDataCp })
+  dispatch({ type: ACTIONS.SET_TODO_DATA, todoData: todoDataCp.sort((a, b) => a.status ? 1 : -1) })
   dispatch({ type: ACTIONS.SET_IS_EDIT_MODE, isEditMode: false })
   dispatch({ type: ACTIONS.SET_TITLE, title: '' })
   dispatch({ type: ACTIONS.SET_CONTENT, content: '' })
